@@ -16,7 +16,6 @@ model = model.llm()
 # StageGraph of the agent
 class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
-    instructions : str 
     
 tools = [git_add, git_status, smart_commit, create_branch, git_checkout]
 model_with_tools = model.bind_tools(tools=tools)
@@ -101,7 +100,7 @@ def main():
     print("Type 'exit' to quit.")
 
     while True:
-        user_input = input("You: ")
+        user_input = input("You : ")
         if user_input.lower() == "exit":
             break
 
