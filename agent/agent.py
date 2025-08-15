@@ -1,6 +1,7 @@
 from tools.git_status import git_status
-from tools.stag_changes import git_add
+from tools.git_stag_changes import git_add
 from tools.git_commit import smart_commit
+from tools.git_branches import create_branch, git_checkout
 from agent import model
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, BaseMessage, SystemMessage
@@ -17,7 +18,7 @@ class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
     instructions : str 
     
-tools = [git_add, git_status, smart_commit]
+tools = [git_add, git_status, smart_commit, create_branch, git_checkout]
 model_with_tools = model.bind_tools(tools=tools)
 
 

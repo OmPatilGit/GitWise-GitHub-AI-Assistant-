@@ -58,12 +58,12 @@ def smart_commit(repo_path : str = "."):
         if not ChildProcess.stdout.strip():
             return "Error : No changes are staged. Stage the changes first."
         
-        prompt = smart_commit_prompt.format({'code_diff':code_diff})
+        prompt = smart_commit_prompt.format(code_diff=code_diff)
         
         commit_message = model.invoke(prompt)
         
         ChildProcess = subprocess.run(
-            args=['git', 'commit', '-m', commit_message],
+            args=['git', 'commit', '-m', commit_message.content],
             cwd=repo_path,
             capture_output=True,
             text=True,

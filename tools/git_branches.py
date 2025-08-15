@@ -14,10 +14,11 @@ def create_branch(branch_name : str, repo_path : str):
     
     try:
         ChildProcess = subprocess.run(
-            args=['git', 'branch', branch_name],
+            args=['git', 'checkout', '-b',branch_name],
             cwd=repo_path,
             capture_output=True,
-            text=True
+            text=True,
+            check=True
         )
         
         return f"Created branch : {branch_name}"
@@ -39,3 +40,4 @@ def git_checkout(branch_name: str, repo_path: str = "."):
         return f"Successfully switched to branch: '{branch_name}'."
     except subprocess.CalledProcessError as e:
         return f"Error switching branch: {e.stderr}"
+    
