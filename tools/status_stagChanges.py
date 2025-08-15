@@ -24,7 +24,7 @@ def git_status(repo_path : str = ".") -> str:
     except subprocess.CalledProcessError as e:
         return f"Error : Error checking repo status : {e.stderr}"
     
-# @tool
+@tool
 def git_add(repo_path : str = ".", file_to_stag : str = ".") -> str:
     """Stags the changes to the staging area for the specifies repository.
     Args :
@@ -46,7 +46,3 @@ def git_add(repo_path : str = ".", file_to_stag : str = ".") -> str:
     
     except subprocess.CalledProcessError as e:
         return f"Error : Error staging files : {e.stderr}"   
-
-result = git_add()
-
-print(result)
