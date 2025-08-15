@@ -6,7 +6,7 @@ load_dotenv()
 API = os.getenv("OPENAI_API_KEY")
 URL = os.getenv("BASE_URL")
 
-def llm(model_name : str = "gpt-oss-20b", temp : int = 0.5):
+def llm(model_name : str = "gpt-oss-20b", temp : int = 0.0):
     """Returns the instance of a LLM model.
     Args : 
     1.model_name : Name of the model to chose.(default to open source)
