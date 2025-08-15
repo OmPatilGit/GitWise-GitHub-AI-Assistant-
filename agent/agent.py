@@ -3,8 +3,8 @@ from tools.git_stag_changes import git_add
 from tools.git_commit import smart_commit
 from tools.git_branches import create_branch, git_checkout
 from agent import model
-from langgraph.graph import StateGraph, START, END
-from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, BaseMessage, SystemMessage
+from langgraph.graph import StateGraph,END
+from langchain_core.messages import HumanMessage,ToolMessage, BaseMessage, SystemMessage
 from typing import TypedDict, Annotated, List
 from langchain_core.tools import tool
 from agent.prompts import session_instructions
@@ -47,7 +47,7 @@ def model_call(state: AgentState):
         
     message_with_prompt.extend(state['messages'])
     response = model_with_tools.invoke(message_with_prompt)
-    print(response.content)
+    print("GitWise : ",response.content)
     return {"messages": [response]}
 
 # Calling the tool
