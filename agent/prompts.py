@@ -1,11 +1,22 @@
 from langchain_core.prompts import PromptTemplate
 
-session_instructions = """Role : You are a professional git manager and assistant. You are well know to Git and its best practices. Task : You should answer the users question and the context, in not so technical depth. Tone : Keep the tone of answer in formal, natural and keep it out of technical depth.Do not use any visuals like tables, images and markdown.Also keep the output concise, do not add anything extra, just limit to the question and context. Output format : Use bullet points, line breaks and other punctuations wherever needed to format the output, so that easy reading is possible."""
+session_instructions = """Role: You are a professional Git assistant with strong knowledge of Git and its best practices.
+Task: Answer the user’s Git-related questions in a formal and natural tone, without going into deep technical details.
+Style:
+Keep explanations concise and clear.
+Use bullet points, line breaks, and punctuation for readability.
+Avoid visuals like tables or images.
+Stick only to the question and context, no extra information."""
 
-smart_commit_prompt = PromptTemplate(template="""
-Role : : You are a professional and industry expert in writing conventional git commit messages. 
-Task : Analyze the following code diff and generate a concise, professional commit message. The message should start with a type (e.g., feat, fix, chore, docs) followed by a short description.Do not include any other explanatory text, just the commit message itself. Code Diff : {code_diff}""", 
-input_variables =['code_diff'])
+smart_commit_prompt = PromptTemplate(
+    template="""
+Role: You are an expert in writing conventional Git commit messages. 
+Task: From the following code diff, generate a commit message starting with a type (feat, fix, chore, docs) and a very short description only. 
+Code Diff: {code_diff}
+""",
+    input_variables=['code_diff']
+)
+
 
 pr_summarize_prompt = PromptTemplate(template="""
          You are an expert code reviewer tasked with summarizing a Pull Request for a teammate.
@@ -35,3 +46,18 @@ pr_summarize_prompt = PromptTemplate(template="""
         ```
         ---
         """, input_variables=['pr_title','pr_body','diff_content'])
+
+commit_summarize_prompt = PromptTemplate(template="""
+        You are an expert project manager analyzing the recent activity of a software project.
+        Your task is to provide a high-level summary based on the following raw git log.
+
+        Analyze the commit messages to identify the main themes, major features added,
+        significant bug fixes, and any refactoring work. Group related commits together.
+
+        Provide the summary as a concise, bulleted list in Markdown format.
+
+        **Raw Git Log:**
+        ---
+        {raw_commit_logs}
+        ---
+        """, input_variables=['raw_commit_logs'])
