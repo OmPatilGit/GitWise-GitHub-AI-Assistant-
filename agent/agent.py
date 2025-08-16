@@ -16,6 +16,7 @@ from agent.prompts import session_instructions
 # Loading the LLM model
 model = model.llm()
 
+
 # StageGraph of the agent
 class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
