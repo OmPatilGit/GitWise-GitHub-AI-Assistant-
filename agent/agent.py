@@ -4,6 +4,7 @@ from tools.git_commit import smart_commit
 from tools.git_branches import create_branch, git_checkout
 from tools.git_pr_summarize import summarize_pr
 from tools.git_summarize_commit import summarize_commits
+from tools.git_summarize_blame import explain_code_change
 from agent import model
 from langgraph.graph import StateGraph,END
 from langchain_core.messages import HumanMessage,ToolMessage, BaseMessage, SystemMessage
@@ -18,7 +19,14 @@ model = model.llm()
 class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
     
-tools = [git_add, git_status, smart_commit, create_branch, git_checkout, summarize_pr,summarize_commits]
+tools = [git_add, git_status, 
+         smart_commit, 
+         create_branch, 
+         git_checkout, 
+         summarize_pr,
+         summarize_commits,
+         explain_code_change]
+    
 model_with_tools = model.bind_tools(tools=tools)
 
 

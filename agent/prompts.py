@@ -61,3 +61,12 @@ commit_summarize_prompt = PromptTemplate(template="""
         {raw_commit_logs}
         ---
         """, input_variables=['raw_commit_logs'])
+
+blame_summarize_prompt = PromptTemplate(template=""" You are an expert code reviewer. A developer wants to understand a specific code change.
+        Based on the following commit information (message and diff), provide a concise,
+        one-paragraph explanation of what the original author was trying to accomplish.
+
+        Commit Details:
+        ---
+        {commit_details}
+        ---""", input_variables=['commit_details'])
