@@ -10,7 +10,8 @@ llm = model.llm()
 def summarize_pr(pr_url: str, repo_path: str = "."):
     """
     Analyzes the changes in a GitHub Pull Request and provides a concise summary.
-    The input should be the full URL of the pull request.
+    Args :
+    1.pr_url : the full fledged URL of the pull request.
     """
     if not pr_url:
         return "Error: Please provide the URL of the Pull Request to summarize."

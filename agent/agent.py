@@ -2,13 +2,14 @@ from tools.git_status import git_status
 from tools.git_stag_changes import git_add
 from tools.git_commit import smart_commit
 from tools.git_branches import create_branch, git_checkout
+from tools.git_pr_summarize import summarize_pr
+from tools.git_merge_conflict import robust_conflict_resolver
 from agent import model
 from langgraph.graph import StateGraph,END
 from langchain_core.messages import HumanMessage,ToolMessage, BaseMessage, SystemMessage
 from typing import TypedDict, Annotated, List
 from langchain_core.tools import tool
 from agent.prompts import session_instructions
- 
 
 # Loading the LLM model
 model = model.llm()
@@ -17,7 +18,7 @@ model = model.llm()
 class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
     
-tools = [git_add, git_status, smart_commit, create_branch, git_checkout]
+tools = [git_add, git_status, smart_commit, create_branch, git_checkout, summarize_pr, robust_conflict_resolver]
 model_with_tools = model.bind_tools(tools=tools)
 
 
@@ -94,7 +95,6 @@ graph.add_edge('tool_call', 'model_call')
 app = graph.compile()
 
 
-# ------------------------------------- - ------------------------------------ #
 def main():
     print("Welcome to GitWise AI! How can I help you today?")
     print("Type 'exit' to quit.")
