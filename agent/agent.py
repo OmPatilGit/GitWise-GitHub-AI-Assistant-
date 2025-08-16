@@ -3,7 +3,8 @@ from tools.git_stag_changes import git_add
 from tools.git_commit import smart_commit
 from tools.git_branches import create_branch, git_checkout
 from tools.git_pr_summarize import summarize_pr
-from tools.git_merge_conflict import robust_conflict_resolver
+from tools.git_summarize_commit import summarize_commits
+from tools.git_summarize_blame import explain_code_change
 from agent import model
 from langgraph.graph import StateGraph,END
 from langchain_core.messages import HumanMessage,ToolMessage, BaseMessage, SystemMessage
@@ -18,7 +19,14 @@ model = model.llm()
 class AgentState(TypedDict):
     messages : Annotated[List[BaseMessage], lambda x,y : x+y]
     
-tools = [git_add, git_status, smart_commit, create_branch, git_checkout, summarize_pr, robust_conflict_resolver]
+tools = [git_add, git_status, 
+         smart_commit, 
+         create_branch, 
+         git_checkout, 
+         summarize_pr,
+         summarize_commits,
+         explain_code_change]
+    
 model_with_tools = model.bind_tools(tools=tools)
 
 
@@ -48,7 +56,6 @@ def model_call(state: AgentState):
         
     message_with_prompt.extend(state['messages'])
     response = model_with_tools.invoke(message_with_prompt)
-    print("GitWise : ",response.content)
     return {"messages": [response]}
 
 # Calling the tool
@@ -93,28 +100,3 @@ graph.add_conditional_edges(
 graph.add_edge('tool_call', 'model_call')
 
 app = graph.compile()
-
-
-def main():
-    print("Welcome to GitWise AI! How can I help you today?")
-    print("Type 'exit' to quit.")
-
-    while True:
-        user_input = input("You : ")
-        if user_input.lower() == "exit":
-            break
-
-        inputs = {
-            "messages": [HumanMessage(content=user_input)],
-            "instructions": session_instructions 
-        }
-        
-
-        for output in app.stream(inputs):
-            if "agent" in output:
-                final_message = output["agent"]["messages"][-1]
-                if not final_message.tool_calls:
-                    print(f"Agent: {final_message.content}")
-
-if __name__ == "__main__":
-    main()
