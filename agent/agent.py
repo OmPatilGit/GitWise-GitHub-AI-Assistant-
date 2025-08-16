@@ -5,6 +5,7 @@ from tools.git_branches import create_branch, git_checkout
 from tools.git_pr_summarize import summarize_pr
 from tools.git_summarize_commit import summarize_commits
 from tools.git_summarize_blame import explain_code_change
+from tools.git_fetch_pull import git_fetch, git_pull
 from agent import model
 from langgraph.graph import StateGraph,END
 from langchain_core.messages import HumanMessage,ToolMessage, BaseMessage, SystemMessage
@@ -25,8 +26,10 @@ tools = [git_add, git_status,
          git_checkout, 
          summarize_pr,
          summarize_commits,
-         explain_code_change]
-    
+         explain_code_change,
+         git_fetch,
+         git_pull]
+
 model_with_tools = model.bind_tools(tools=tools)
 
 
