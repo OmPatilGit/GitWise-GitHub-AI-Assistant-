@@ -124,6 +124,7 @@ dependencies = [
     { name = "langchain" },
     { name = "langchain-openai" },
     { name = "langgraph" },
+    { name = "langsmith" },
     { name = "rich" },
     { name = "textual" },
 ]
@@ -134,6 +135,7 @@ requires-dist = [
     { name = "langchain", specifier = ">=0.3.27" },
     { name = "langchain-openai", specifier = ">=0.3.30" },
     { name = "langgraph", specifier = ">=0.6.5" },
+    { name = "langsmith", specifier = ">=0.4.14" },
     { name = "rich", specifier = ">=14.1.0" },
     { name = "textual", specifier = ">=5.3.0" },
 ]
